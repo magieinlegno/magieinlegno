@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magie in Legno — Incisioni Laser Artigianali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F8F3EC;
+    --warm-white: #FDFAF6;
+    --wood-light: #D4A96A;
+    --wood-mid: #B8813A;
+    --wood-dark: #7A4F24;
+    --wood-deep: #4A2E12;
+    --charcoal: #2C2420;
+    --text-muted: #7A6A5A;
+    --text-light: #A89A8A;
+    --border: rgba(180,130,70,0.2);
+    --border-strong: rgba(180,130,70,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(248,243,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--wood-dark);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    color: var(--wood-light);
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--wood-dark); }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .cart-btn {
+    position: relative;
+    background: var(--wood-dark);
+    color: var(--cream);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .cart-btn:hover { background: var(--wood-deep); }
+
+  .cart-count {
+    position: absolute;
+    top: -6px; right: -6px;
+    background: var(--wood-light);
+    color: white;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wood-mid);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--wood-mid);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--wood-deep);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--wood-mid);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 380px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--wood-deep);
+    color: var(--cream);
+    border: none;
+    padding: 1rem 2.2rem;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--wood-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--wood-deep);
+    border: 1px solid var(--border-strong);
+    padding: 1rem 2.2rem;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover {
+    background: var(--wood-deep);
+    color: var(--cream);
+    border-color: var(--wood-deep);
+  }
+
+  .hero-visual {
+    position: relative;
+    overflow: hidden;
+    background: var(--wood-light);
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #C49A5A 0%, #8B5E2A 60%, #5A3612 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* SVG wood texture art */
+  .hero-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 2.5rem;
+    left: -1px;
+    background: var(--cream);
+    padding: 1.2rem 1.8rem;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+
+  .hero-badge-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .hero-badge-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--wood-deep);
+    line-height: 1;
+  }
+
+  /* ── CATEGORIE ── */
+  .section {
+    padding: 6rem 5rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wood-mid);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    color: var(--wood-deep);
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .category-card {
+    cursor: pointer;
+    transition: transform 0.3s;
+    text-decoration: none;
+  }
+
+  .category-card:hover { transform: translateY(-4px); }
+
+  .cat-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .cat-bg {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  .cat-bg-1 { background: linear-gradient(160deg, #E8D4B0, #C4954A); }
+  .cat-bg-2 { background: linear-gradient(160deg, #D4C4A8, #8B6A3A); }
+  .cat-bg-3 { background: linear-gradient(160deg, #C8D4BC, #6A8A5A); }
+  .cat-bg-4 { background: linear-gradient(160deg, #D4B8A0, #9A6840); }
+
+  .cat-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(74,46,18,0.7) 0%, transparent 50%);
+  }
+
+  .cat-label-overlay {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    color: var(--cream);
+  }
+
+  .cat-label-overlay h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  .cat-label-overlay p {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-top: 0.2rem;
+  }
+
+  /* ── SHOP ── */
+  #shop {
+    background: var(--warm-white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.55rem 1.5rem;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 400;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--wood-deep);
+    color: var(--cream);
+    border-color: var(--wood-deep);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .product-card {
+    background: var(--cream);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(74,46,18,0.12);
+  }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-emoji {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    transition: transform 0.4s;
+  }
+
+  .product-card:hover .product-emoji { transform: scale(1.08); }
+
+  .prod-bg-1 { background: linear-gradient(135deg, #EFE4D0, #D4B068); }
+  .prod-bg-2 { background: linear-gradient(135deg, #E4D4C0, #B8905A); }
+  .prod-bg-3 { background: linear-gradient(135deg, #DDD4C4, #A87840); }
+  .prod-bg-4 { background: linear-gradient(135deg, #EAE0D0, #C8A060); }
+  .prod-bg-5 { background: linear-gradient(135deg, #E0D8CC, #9A7248); }
+  .prod-bg-6 { background: linear-gradient(135deg, #E8DCC8, #BC8C50); }
+
+  .product-badge {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    background: var(--wood-mid);
+    color: white;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1px;
+  }
+
+  .product-info {
+    padding: 1.2rem 1.4rem 1.4rem;
+  }
+
+  .product-cat {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--wood-mid);
+    margin-bottom: 0.4rem;
+  }
+
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--wood-deep);
+    margin-bottom: 0.5rem;
+  }
+
+  .product-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--wood-dark);
+  }
+
+  .add-to-cart {
+    background: var(--wood-deep);
+    color: var(--cream);
+    border: none;
+    padding: 0.55rem 1.2rem;
+    border-radius: 1px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .add-to-cart:hover { background: var(--wood-dark); }
+
+  /* ── PERSONALIZZAZIONE ── */
+  #personalizza {
+    background: var(--wood-deep);
+    color: var(--cream);
+    text-align: center;
+    padding: 6rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #personalizza::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  #personalizza .section-title {
+    color: var(--cream);
+    margin-bottom: 1.2rem;
+  }
+
+  #personalizza .section-eyebrow {
+    color: var(--wood-light);
+  }
+
+  #personalizza p {
+    color: rgba(248,243,236,0.7);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+
+  .features-row {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .feature-item {
+    text-align: center;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .feature-label {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--wood-light);
+    font-weight: 500;
+  }
+
+  /* ── CONTATTI ── */
+  #contatti {
+    padding: 6rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .contact-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 300;
+    color: var(--wood-deep);
+    margin-bottom: 1rem;
+  }
+
+  .contact-text p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .contact-row strong { color: var(--wood-dark); }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--warm-white);
+    border: 1px solid var(--border-strong);
+    border-radius: 1px;
+    padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--wood-mid);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    color: rgba(248,243,236,0.6);
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  footer p { font-size: 0.82rem; }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-links a {
+    font-size: 0.78rem;
+    color: rgba(248,243,236,0.5);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--cream); }
+
+  /* ── CART SIDEBAR ── */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44,36,32,0.5);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-sidebar {
+    position: fixed;
+    top: 0; right: -440px; bottom: 0;
+    width: 400px;
+    max-width: 100%;
+    background: var(--warm-white);
+    z-index: 201;
+    padding: 2rem;
+    overflow-y: auto;
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cart-sidebar.open { right: 0; }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cart-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--wood-deep);
+  }
+
+  .close-cart {
+    background: none;
+    border: 1px solid var(--border);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .close-cart:hover {
+    background: var(--wood-deep);
+    color: var(--cream);
+    border-color: var(--wood-deep);
+  }
+
+  .cart-items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.8rem;
+    background: var(--cream);
+    border-radius: 2px;
+    border: 1px solid var(--border);
+  }
+
+  .cart-item-img {
+    width: 60px; height: 60px;
+    border-radius: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+  }
+
+  .cart-item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--wood-deep);
+    margin-bottom: 0.2rem;
+  }
+
+  .cart-item-price {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .remove-item {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+  }
+
+  .remove-item:hover { color: #c0392b; }
+
+  .cart-empty {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .cart-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+
+  .cart-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--wood-deep);
+  }
+
+  .checkout-btn {
+    width: 100%;
+    background: var(--wood-deep);
+    color: var(--cream);
+    border: none;
+    padding: 1.1rem;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .checkout-btn:hover { background: var(--wood-dark); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--wood-deep);
+    color: var(--cream);
+    padding: 0.9rem 1.5rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    z-index: 500;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── ANIMAZIONI ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-visual { min-height: 50vh; }
+    .hero-text { padding: 4rem 2.5rem; }
+    .section { padding: 4rem 2.5rem; }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    #contatti { grid-template-columns: 1fr; padding: 4rem 2.5rem; gap: 3rem; }
+    footer { flex-direction: column; text-align: center; padding: 2rem; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .products-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Magie in <span>Legno</span></a>
+  <ul class="nav-links">
+    <li><a href="#categorie">Collezioni</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#personalizza">Personalizza</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Carrello
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Incisioni Laser Artigianali</div>
+    <h1 class="hero-title">
+      Il legno<br>racconta<br><em>la tua storia</em>
+    </h1>
+    <p class="hero-sub">
+      Ogni pezzo è unico, inciso con precisione laser su legno selezionato. Bomboniere, decori e regali personalizzati per i momenti che contano.
+    </p>
+    <div class="hero-ctas">
+      <a href="#shop" class="btn-primary">Scopri lo Shop</a>
+      <a href="#personalizza" class="btn-outline">Ordine Personalizzato</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <svg class="hero-svg" viewBox="0 0 600 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#C49A5A"/>
+          <stop offset="100%" stop-color="#5A3612"/>
+        </linearGradient>
+        <linearGradient id="lightGrad" x1="0%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#EDD5A8" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#C49A5A" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="700" fill="url(#woodGrad)"/>
+      <!-- Wood grain lines -->
+      <ellipse cx="300" cy="350" rx="280" ry="180" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+      <ellipse cx="300" cy="350" rx="230" ry="140" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <ellipse cx="300" cy="350" rx="180" ry="105" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <ellipse cx="300" cy="350" rx="130" ry="72" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <ellipse cx="300" cy="350" rx="80" ry="42" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <!-- Light overlay -->
+      <rect width="600" height="700" fill="url(#lightGrad)"/>
+      <!-- Central decorative incision SVG art -->
+      <g transform="translate(300,330)" opacity="0.9">
+        <!-- Outer frame -->
+        <rect x="-120" y="-140" width="240" height="280" rx="4" fill="none" stroke="rgba(255,245,220,0.6)" stroke-width="1.5"/>
+        <rect x="-110" y="-130" width="220" height="260" rx="2" fill="none" stroke="rgba(255,245,220,0.3)" stroke-width="0.8"/>
+        <!-- Decorative flower/mandala center -->
+        <circle cx="0" cy="-20" r="55" fill="none" stroke="rgba(255,245,220,0.5)" stroke-width="1.2"/>
+        <circle cx="0" cy="-20" r="42" fill="none" stroke="rgba(255,245,220,0.4)" stroke-width="0.8"/>
+        <circle cx="0" cy="-20" r="28" fill="none" stroke="rgba(255,245,220,0.6)" stroke-width="1"/>
+        <!-- Petal-like ornaments -->
+        <g stroke="rgba(255,245,220,0.7)" stroke-width="1.2" fill="none">
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(0,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(45,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(90,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(135,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(180,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(225,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(270,0,-20)"/>
+          <ellipse cx="0" cy="-62" rx="8" ry="16" transform="rotate(315,0,-20)"/>
+        </g>
+        <!-- Center dot -->
+        <circle cx="0" cy="-20" r="6" fill="rgba(255,245,220,0.8)"/>
+        <!-- Text lines simulation -->
+        <text x="0" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="rgba(255,245,220,0.85)" letter-spacing="3">MARCO &amp; GIULIA</text>
+        <text x="0" y="90" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="rgba(255,245,220,0.55)" letter-spacing="2">15 · GIUGNO · 2025</text>
+        <!-- Corner ornaments -->
+        <text x="-98" y="-118" font-size="10" fill="rgba(255,245,220,0.5)">✦</text>
+        <text x="82" y="-118" font-size="10" fill="rgba(255,245,220,0.5)">✦</text>
+        <text x="-98" y="128" font-size="10" fill="rgba(255,245,220,0.5)">✦</text>
+        <text x="82" y="128" font-size="10" fill="rgba(255,245,220,0.5)">✦</text>
+      </g>
+      <!-- Bottom shadow -->
+      <rect x="0" y="580" width="600" height="120" fill="rgba(44,28,12,0.4)"/>
+    </svg>
+
+    <div class="hero-badge">
+      <div class="hero-badge-label">Prodotti creati</div>
+      <div class="hero-badge-val">500+</div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIE -->
+<section id="categorie" class="section fade-in">
+  <div class="section-header">
+    <div class="section-eyebrow">Le nostre collezioni</div>
+    <h2 class="section-title">Ogni occasione merita un ricordo unico</h2>
+  </div>
+  <div class="categories-grid">
+    <a class="category-card" href="#shop" onclick="filterProducts('battesimo')">
+      <div class="cat-img">
+        <div class="cat-bg cat-bg-1">🕊️</div>
+        <div class="cat-overlay"></div>
+        <div class="cat-label-overlay">
+          <h3>Battesimo</h3>
+          <p>Ricordi incisi nel legno</p>
+        </div>
+      </div>
+    </a>
+    <a class="category-card" href="#shop" onclick="filterProducts('cresima')">
+      <div class="cat-img">
+        <div class="cat-bg cat-bg-2">✝️</div>
+        <div class="cat-overlay"></div>
+        <div class="cat-label-overlay">
+          <h3>Cresima</h3>
+          <p>Un passo importante</p>
+        </div>
+      </div>
+    </a>
+    <a class="category-card" href="#shop" onclick="filterProducts('festa')">
+      <div class="cat-img">
+        <div class="cat-bg cat-bg-3">🎉</div>
+        <div class="cat-overlay"></div>
+        <div class="cat-label-overlay">
+          <h3>Feste & Compleanni</h3>
+          <p>Bomboniere per ogni ricorrenza</p>
+        </div>
+      </div>
+    </a>
+    <a class="category-card" href="#shop" onclick="filterProducts('decorativo')">
+      <div class="cat-img">
+        <div class="cat-bg cat-bg-4">🌿</div>
+        <div class="cat-overlay"></div>
+        <div class="cat-label-overlay">
+          <h3>Oggetti Decorativi</h3>
+          <p>Arte per la casa</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop" class="section">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Shop Online</div>
+    <h2 class="section-title">Sfoglia la collezione</h2>
+  </div>
+
+  <div class="filter-bar fade-in">
+    <button class="filter-btn active" onclick="filterProducts('tutti', this)">Tutti</button>
+    <button class="filter-btn" onclick="filterProducts('battesimo', this)">Battesimo</button>
+    <button class="filter-btn" onclick="filterProducts('cresima', this)">Cresima</button>
+    <button class="filter-btn" onclick="filterProducts('festa', this)">Feste</button>
+    <button class="filter-btn" onclick="filterProducts('decorativo', this)">Decorativi</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+    <!-- Products injected by JS -->
+  </div>
+</section>
+
+<!-- PERSONALIZZA -->
+<section id="personalizza">
+  <div class="section-eyebrow">Su misura per te</div>
+  <h2 class="section-title" style="margin-bottom:1rem;">Ordine personalizzato</h2>
+  <p>Hai un'idea speciale? Realizziamo qualsiasi incisione su richiesta — nomi, date, dediche, loghi aziendali. Ogni pezzo è unico come chi lo riceve.</p>
+
+  <div class="features-row">
+    <div class="feature-item">
+      <div class="feature-icon">✏️</div>
+      <div class="feature-label">Design Personalizzato</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌳</div>
+      <div class="feature-label">Legno Selezionato</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-label">Consegna in 7 giorni</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📦</div>
+      <div class="feature-label">Grandi Quantità</div>
+    </div>
+  </div>
+
+  <a href="#contatti" class="btn-outline" style="border-color:rgba(248,243,236,0.4);color:var(--cream);">Richiedi un preventivo</a>
+</section>
+
+<!-- CONTATTI -->
+<section id="contatti">
+  <div class="contact-text fade-in">
+    <h2>Parliamo del tuo progetto</h2>
+    <p>Che si tratti di 10 o 1000 bomboniere, siamo qui per aiutarti a creare qualcosa di speciale. Contattaci per un preventivo gratuito.</p>
+    <div class="contact-info">
+      <div class="contact-row">📍 <span><strong>Dove siamo:</strong> L'Aquila (AQ) — spedizione in tutta Italia</span></div>
+      <div class="contact-row">📱 <span><strong>WhatsApp:</strong> +39 392 726 7419</span></div>
+      <div class="contact-row">✉️ <span><strong>Email:</strong> yvanmast@gmail.com</span></div>
+      <div class="contact-row">⏰ <span><strong>Tempi:</strong> Risposta entro 24 ore</span></div>
+    </div>
+  </div>
+
+  <div class="contact-form fade-in">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" placeholder="Il tuo nome">
+      </div>
+      <div class="form-group">
+        <label>Cognome</label>
+        <input type="text" placeholder="Il tuo cognome">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="email@esempio.it">
+    </div>
+    <div class="form-group">
+      <label>Tipo di prodotto</label>
+      <select>
+        <option>Bomboniere Battesimo</option>
+        <option>Bomboniere Cresima</option>
+        <option>Bomboniere per Feste</option>
+        <option>Oggetto Decorativo</option>
+        <option>Ordine aziendale / personalizzato</option>
+        <option>Altro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Messaggio</label>
+      <textarea placeholder="Descrivi il tuo progetto: quantità, occasione, personalizzazione desiderata..."></textarea>
+    </div>
+    <button class="btn-primary" onclick="handleContact()" style="width:100%;padding:1.1rem;font-size:0.88rem;">Invia Messaggio</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Magie in Legno</div>
+    <p style="margin-top:0.4rem;">Incisioni laser artigianali · Made in Italy</p>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Termini</a>
+    <a href="#">Spedizioni</a>
+    <a href="#">Resi</a>
+  </div>
+  <p>© 2025 Magie in Legno. Tutti i diritti riservati.</p>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Il tuo carrello</h2>
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <p>Il tuo carrello è vuoto</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Totale</span>
+      <span id="cartTotal">€0,00</span>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">Procedi al pagamento</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const products = [
+  { id:1, name:'Targhetta Battesimo', cat:'battesimo', price:12, emoji:'🕊️', bg:'prod-bg-1', badge:'Bestseller', desc:'Targhetta in legno di betulla con nome e data, perfetta come bomboniera.' },
+  { id:2, name:'Portachiavi Personalizzato', cat:'battesimo', price:8, emoji:'🔑', bg:'prod-bg-2', badge:'', desc:'Portachiavi in legno inciso con nome e simbolo a scelta.' },
+  { id:3, name:'Croce Cresima Incisa', cat:'cresima', price:18, emoji:'✝️', bg:'prod-bg-3', badge:'Novità', desc:'Croce in legno massello con dedica personalizzata, idea regalo per la cresima.' },
+  { id:4, name:'Segnalibro Elegante', cat:'cresima', price:6, emoji:'📖', bg:'prod-bg-4', badge:'', desc:'Segnalibro in legno di ciliegio con incisione fine, ideale per ogni occasione.' },
+  { id:5, name:'Cuore Decorativo', cat:'decorativo', price:22, emoji:'❤️', bg:'prod-bg-5', badge:'', desc:'Cuore in legno massiccio con texture a venatura naturale, per decorare ogni ambiente.' },
+  { id:6, name:'Cornice Personalizzata', cat:'decorativo', price:35, emoji:'🖼️', bg:'prod-bg-6', badge:'Premium', desc:'Cornice in legno con bordi incisi e nome/data, un ricordo per sempre.' },
+  { id:7, name:'Bomboniera Compleanno', cat:'festa', price:10, emoji:'🎂', bg:'prod-bg-1', badge:'', desc:'Bomboniera in legno con nome e numero di anni, per un compleanno indimenticabile.' },
+  { id:8, name:'Calamita Ricordo', cat:'festa', price:5, emoji:'🧲', bg:'prod-bg-2', badge:'Offerta', desc:'Calamita in legno con incisione personalizzata, souvenir perfetto per ogni festa.' },
+  { id:9, name:'Tagliere Decorativo', cat:'decorativo', price:45, emoji:'🌿', bg:'prod-bg-3', badge:'', desc:'Tagliere in legno di noce con incisione botanica, pezzo unico per la cucina.' },
+];
+
+let cart = [];
+let currentFilter = 'tutti';
+
+function renderProducts(filter) {
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'tutti' ? products : products.filter(p => p.cat === filter);
+  
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem">Nessun prodotto in questa categoria.</p>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card fade-in visible">
+      <div class="product-img">
+        <div class="product-emoji ${p.bg}">${p.emoji}</div>
+        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${catLabel(p.cat)}</div>
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-desc">${p.desc}</p>
+        <div class="product-footer">
+          <span class="product-price">€${p.price.toFixed(2)}</span>
+          <button class="add-to-cart" onclick="addToCart(${p.id})">+ Aggiungi</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function catLabel(cat) {
+  const labels = { battesimo:'Battesimo', cresima:'Cresima', festa:'Feste', decorativo:'Decorativo' };
+  return labels[cat] || cat;
+}
+
+function filterProducts(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderProducts(cat);
+  document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  const existing = cart.find(x => x.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...p, qty: 1 });
+  }
+  updateCartUI();
+  showToast(`"${p.name}" aggiunto al carrello 🛒`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, x) => s + x.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Il tuo carrello è vuoto</p></div>';
+    footerEl.style.display = 'none';
+  } else {
+    itemsEl.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-img ${item.bg}">${item.emoji}</div>
+        <div>
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">€${item.price.toFixed(2)} × ${item.qty}</div>
+        </div>
+        <button class="remove-item" onclick="removeFromCart(${item.id})">✕</button>
+      </div>
+    `).join('');
+    const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+    document.getElementById('cartTotal').textContent = `€${total.toFixed(2)}`;
+    footerEl.style.display = 'block';
+  }
+}
+
+function toggleCart() {
+  const sidebar = document.getElementById('cartSidebar');
+  const overlay = document.getElementById('cartOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+function checkout() {
+  showToast('🎉 Checkout: integra il tuo sistema di pagamento (Stripe, PayPal...)');
+  toggleCart();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function handleContact() {
+  showToast('✉️ Messaggio inviato! Ti risponderemo entro 24 ore.');
+}
+
+// Intersection observer for animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Init
+renderProducts('tutti');
+</script>
+</body>
+</html>
